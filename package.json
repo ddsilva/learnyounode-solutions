@@ -1,0 +1,13 @@
+{
+  "name": "learnyounode-solutions",
+  "version": "1.0.0",
+  "description": "Solutions for learnyounode course",
+  "main": "index.js",
+  "repository": "git@github.com:ddsilva/learnyounode-solutions.git",
+  "author": "Daniel Silva <daniel5055@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "bl": "^2.0.1",
+    "concat-stream": "^1.6.2"
+  }
+}
