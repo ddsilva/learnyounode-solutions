@@ -1,21 +1,18 @@
 const http = require('http')
 const concat = require('concat-stream')
+const partialRight = require('./utils/partial-right')
 
-const [,, first, second, third ] = process.argv
+const [,, first, ...endpoints] = process.argv;
 
-const handleResponse = response => {
-  response.setEncoding('utf8')
-  response.pipe(concat(console.log))
+const handleResponse = (response, next, ...rest) => {
+  response.setEncoding('utf8');
+  response.pipe(concat(console.log));
+
+  if (!next) return;
+
+  response.on('end', () => {
+    http.get(next, partialRight(handleResponse, ...rest))
+  });
 }
 
-const handleFirst = response => {
-  handleResponse(response)
-  http.get(second, handleSecond)
-}
-
-const handleSecond = response => {
-  handleResponse(response)
-  http.get(third, handleResponse)
-}
-
-http.get(first, handleFirst)
+http.get(first, partialRight(handleResponse, ...endpoints));
